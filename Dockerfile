@@ -16,11 +16,14 @@ RUN if grep -q Debian /etc/os-release && grep -q jessie /etc/os-release; then \
   ; fi \
   && sudo apt-get install -y bzip2 libgconf-2-4 # for extracting firefox and running chrome, respectively
 
-# Install Maven Version: 3.6.0
-# RUN curl --silent --show-error --location --fail --retry 3 --output /tmp/apache-maven.tar.gz https://www.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz && tar xf /tmp/apache-maven.tar.gz -C /opt/ && rm /tmp/apache-maven.tar.gz && ln -s /opt/apache-maven-* /opt/apache-maven && /opt/apache-maven/bin/mvn -version
 # Update PATH for Java tools
 ENV PATH="/opt/sbt/bin:/opt/apache-maven/bin:/opt/apache-ant/bin:/opt/gradle/bin:$PATH"
-RUN mvn -version
+
+# smoke test with path
+RUN mvn -version 
+# END IMAGE CUSTOMIZATIONS
+
+USER circleci
 
 # install firefox
 #
