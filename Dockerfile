@@ -1,2 +1,2 @@
-FROM google/cloud-sdk:latest
-FROM circleci/openjdk:8-jdk-browsers
+COPY --from=google/cloud-sdk:latest
+COPY --from=circleci/openjdk:8-jdk-browsers
