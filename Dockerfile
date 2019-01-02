@@ -108,6 +108,11 @@ RUN mvn -version
 #   && sbt sbtVersion
 # END IMAGE CUSTOMIZATIONS
 
+# Download Spring Dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+
 # FROM debian:stretch
 ARG CLOUD_SDK_VERSION=228.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
