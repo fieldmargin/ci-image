@@ -95,7 +95,7 @@ ENV ANT_HOME=/opt/apache-ant
 # RUN curl --silent --show-error --location --fail --retry 3 --output /tmp/sbt.tgz https://circle-downloads.s3.amazonaws.com/circleci-images/cache/linux-amd64/sbt-latest.tgz   && tar -xzf /tmp/sbt.tgz -C /opt/   && rm /tmp/sbt.tgz   && /opt/sbt/bin/sbt sbtVersion
 
 # Install openjfx
-RUN apt-get install -y --no-install-recommends openjfx
+#RUN apt-get install -y --no-install-recommends openjfx
 
 # Update PATH for Java tools
 ENV PATH="/opt/sbt/bin:/opt/apache-maven/bin:/opt/apache-ant/bin:/opt/gradle/bin:$PATH"
@@ -110,8 +110,8 @@ RUN mvn -version
 
 # Download Spring Dependencies
 COPY pom.xml .
-RUN mvn dependency:go-offline
-
+RUN mvn dependency:resolve
+VOLUME ["~/.m2"]
 
 # FROM debian:stretch
 ARG CLOUD_SDK_VERSION=228.0.0
@@ -135,15 +135,15 @@ echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
 apt-get update && \
 apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 \
-google-cloud-sdk-app-engine-python=${CLOUD_SDK_VERSION}-0 \
-google-cloud-sdk-app-engine-python-extras=${CLOUD_SDK_VERSION}-0 \
-google-cloud-sdk-app-engine-java=${CLOUD_SDK_VERSION}-0 \
-google-cloud-sdk-app-engine-go=${CLOUD_SDK_VERSION}-0 \
-google-cloud-sdk-datalab=${CLOUD_SDK_VERSION}-0 \
-google-cloud-sdk-datastore-emulator=${CLOUD_SDK_VERSION}-0 \
-google-cloud-sdk-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
-google-cloud-sdk-bigtable-emulator=${CLOUD_SDK_VERSION}-0 \
-google-cloud-sdk-cbt=${CLOUD_SDK_VERSION}-0 \
+#google-cloud-sdk-app-engine-python=${CLOUD_SDK_VERSION}-0 \
+#google-cloud-sdk-app-engine-python-extras=${CLOUD_SDK_VERSION}-0 \
+#google-cloud-sdk-app-engine-java=${CLOUD_SDK_VERSION}-0 \
+#google-cloud-sdk-app-engine-go=${CLOUD_SDK_VERSION}-0 \
+#google-cloud-sdk-datalab=${CLOUD_SDK_VERSION}-0 \
+#google-cloud-sdk-datastore-emulator=${CLOUD_SDK_VERSION}-0 \
+#google-cloud-sdk-pubsub-emulator=${CLOUD_SDK_VERSION}-0 \
+#google-cloud-sdk-bigtable-emulator=${CLOUD_SDK_VERSION}-0 \
+#google-cloud-sdk-cbt=${CLOUD_SDK_VERSION}-0 \
 kubectl && \
 gcloud config set core/disable_usage_reporting true && \
 gcloud config set component_manager/disable_update_check true && \
